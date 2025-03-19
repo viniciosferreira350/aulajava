@@ -1,0 +1,75 @@
+import java.util.Scanner;
+
+public class ControleVoo {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int[] passageiros = new int[3]; // Índices 0, 1, 2 correspondem aos voos 1, 2 e 3
+        double[] precosBase = {100, 150, 200};
+        double[] arrecadacoes = new double[3];
+
+        for (int i = 0; i < 3; i++) {
+            int numeroVoo;
+            do {
+                System.out.print("Digite o número do voo (1, 2 ou 3): ");
+                numeroVoo = scanner.nextInt();
+            } while (numeroVoo < 1 || numeroVoo > 3);
+
+            int index = numeroVoo - 1;
+
+            int qtdPassagens;
+            do {
+                System.out.print("Digite a quantidade de passagens vendidas (0 a 100): ");
+                qtdPassagens = scanner.nextInt();
+            } while (qtdPassagens < 0 || qtdPassagens > 100);
+
+            passageiros[index] = qtdPassagens;
+
+            // Determinar o preço final com base na lotação
+            double precoFinal = precosBase[index];
+            if (qtdPassagens >= 70) {
+                precoFinal *= 0.40; // 60% de desconto
+            } else if (qtdPassagens >= 50) {
+                precoFinal *= 0.70; // 30% de desconto
+            }
+
+            arrecadacoes[index] = qtdPassagens * precoFinal;
+
+            System.out.println("Preço final da passagem para o voo " + numeroVoo + ": R$ " + precoFinal);
+        }
+
+        // Determinar o voo que arrecadou mais
+        int vooMaior = 0;
+        double maiorArrecadacao = arrecadacoes[0];
+        for (int i = 1; i < 3; i++) {
+            if (arrecadacoes[i] > maiorArrecadacao) {
+                maiorArrecadacao = arrecadacoes[i];
+                vooMaior = i;
+            }
+        }
+
+        // Determinar a passagem mais barata
+        int vooMaisBarato = 0;
+        double menorPreco = precosBase[0];
+        for (int i = 1; i < 3; i++) {
+            double precoAtual = precosBase[i];
+            if (passageiros[i] >= 70) {
+                precoAtual *= 0.40;
+            } else if (passageiros[i] >= 50) {
+                precoAtual *= 0.70;
+            }
+            if (precoAtual < menorPreco) {
+                menorPreco = precoAtual;
+                vooMaisBarato = i;
+            }
+        }
+
+        double mediaArrecadacao = (arrecadacoes[0] + arrecadacoes[1] + arrecadacoes[2]) / 3;
+
+        System.out.println("\nVoo que arrecadou mais: " + (vooMaior + 1) + " com R$ " + maiorArrecadacao);
+        System.out.println("Média de arrecadação dos voos: R$ " + mediaArrecadacao);
+        System.out.println("Passagem mais barata foi no voo " + (vooMaisBarato + 1) + " com preço de R$ " + menorPreco);
+
+        scanner.close();
+    }
+}
