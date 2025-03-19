@@ -1,0 +1,309 @@
+4.1 
+
+import java.util.Scanner;
+
+public class Exercicio4_1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        double somaNovosSalarios = 0;
+        int acimaDe1700 = 0;
+
+        for (int i = 0; i < 10; i++) {
+            System.out.print("Nome: ");
+            String nome = scanner.next();
+            System.out.print("Salário: ");
+            double salario = scanner.nextDouble();
+            System.out.print("Número de dependentes: ");
+            int dependentes = scanner.nextInt();
+
+            double novoSalario;
+            if (salario < 1000) {
+                novoSalario = salario * 1.30;
+            } else if (salario <= 2000) {
+                novoSalario = salario * 1.20;
+            } else {
+                novoSalario = salario * 1.10;
+            }
+
+            novoSalario += dependentes * 50;
+            somaNovosSalarios += novoSalario;
+
+            if (novoSalario > 1700) {
+                acimaDe1700++;
+            }
+
+            System.out.println("Novo salário: " + novoSalario);
+        }
+
+        double media = somaNovosSalarios / 10;
+        System.out.println("Soma dos novos salários: " + somaNovosSalarios);
+        System.out.println("Média dos novos salários: " + media);
+        System.out.println("Empregados com salário acima de 1700: " + acimaDe1700);
+    }
+}
+
+4.2
+
+import java.util.Scanner;
+
+public class Exercicio4_2 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int votos1 = 0, votos2 = 0, votos3 = 0, nulos = 0, brancos = 0;
+
+        for (int i = 0; i < 150; i++) {
+            System.out.print("Voto (1-5): ");
+            int voto;
+            do {
+                voto = scanner.nextInt();
+                if (voto < 1 || voto > 5) {
+                    System.out.print("Voto inválido. Digite 1-5: ");
+                }
+            } while (voto < 1 || voto > 5);
+
+            switch (voto) {
+                case 1: votos1++; break;
+                case 2: votos2++; break;
+                case 3: votos3++; break;
+                case 4: nulos++; break;
+                case 5: brancos++; break;
+            }
+        }
+
+        int maxVotos = Math.max(votos1, Math.max(votos2, votos3));
+        String vencedor;
+        if (maxVotos == votos1) {
+            vencedor = "1";
+        } else if (maxVotos == votos2) {
+            vencedor = "2";
+        } else {
+            vencedor = "3";
+        }
+
+        System.out.println("Candidato vencedor: " + vencedor);
+        System.out.println("Votos nulos: " + nulos);
+        System.out.println("Votos em branco: " + brancos);
+    }
+}
+
+4.3
+
+import java.util.Scanner;
+
+public class Exercicio4_3 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        double maiorAltura = 0;
+        double menorAltura = Double.MAX_VALUE;
+        int feminino = 0;
+        double somaAlturaMasculina = 0;
+        int masculino = 0;
+        double somaAlturaTotal = 0;
+        int totalAtletas = 0;
+
+        String continuar = "S";
+        while (continuar.equalsIgnoreCase("S")) {
+            System.out.print("Altura (m): ");
+            double altura = scanner.nextDouble();
+            while (altura <= 0 || altura > 2.5) {
+                System.out.print("Altura inválida. Digite novamente: ");
+                altura = scanner.nextDouble();
+            }
+
+            System.out.print("Sexo (M/F): ");
+            String sexo = scanner.next().toUpperCase();
+            while (!sexo.equals("M") && !sexo.equals("F")) {
+                System.out.print("Sexo inválido. Digite M ou F: ");
+                sexo = scanner.next().toUpperCase();
+            }
+
+            if (altura > maiorAltura) {
+                maiorAltura = altura;
+            }
+            if (altura < menorAltura) {
+                menorAltura = altura;
+            }
+
+            somaAlturaTotal += altura;
+            totalAtletas++;
+
+            if (sexo.equals("F")) {
+                feminino++;
+            } else {
+                somaAlturaMasculina += altura;
+                masculino++;
+            }
+
+            System.out.print("Deseja continuar? (S/N): ");
+            continuar = scanner.next();
+        }
+
+        double mediaMasculina = masculino > 0 ? somaAlturaMasculina / masculino : 0;
+        double mediaGeral = totalAtletas > 0 ? somaAlturaTotal / totalAtletas : 0;
+
+        System.out.println("Maior altura: " + maiorAltura);
+        System.out.println("Menor altura: " + menorAltura);
+        System.out.println("Número de atletas femininos: " + feminino);
+        System.out.println("Média altura masculina: " + mediaMasculina);
+        System.out.println("Média geral: " + mediaGeral);
+    }
+}
+
+4.4
+
+import java.util.Scanner;
+
+public class Exercicio4_4 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        double totalSalarios = 0;
+        int totalPecas = 0;
+        int minPecas = Integer.MAX_VALUE;
+        int codigoMinPecas = -1;
+        int somaPecasB = 0;
+        int contadorB = 0;
+
+        while (true) {
+            System.out.print("Código do operário (0 para sair): ");
+            int codigo = scanner.nextInt();
+            if (codigo == 0) break;
+
+            System.out.print("Classe (A, B, C): ");
+            String classe = scanner.next().toUpperCase();
+            while (!classe.equals("A") && !classe.equals("B") && !classe.equals("C")) {
+                System.out.print("Classe inválida. Digite A, B ou C: ");
+                classe = scanner.next().toUpperCase();
+            }
+
+            System.out.print("Número de peças: ");
+            int pecas = scanner.nextInt();
+            while (pecas <= 0) {
+                System.out.print("Número de peças deve ser >0. Digite novamente: ");
+                pecas = scanner.nextInt();
+            }
+
+            double salario;
+            if (classe.equals("A")) {
+                if (pecas <= 30) salario = 500 + pecas * 2.0;
+                else if (pecas <= 40) salario = 500 + pecas * 2.30;
+                else salario = 500 + pecas * 2.80;
+            } else if (classe.equals("B")) {
+                salario = 1200;
+                somaPecasB += pecas;
+                contadorB++;
+            } else {
+                if (pecas <= 50) salario = pecas * 40.0;
+                else salario = pecas * 45.0;
+            }
+
+            totalSalarios += salario;
+            totalPecas += pecas;
+
+            if (pecas < minPecas) {
+                minPecas = pecas;
+                codigoMinPecas = codigo;
+            }
+
+            System.out.println("Salário: " + salario);
+        }
+
+        double mediaPecasB = contadorB > 0 ? (double) somaPecasB / contadorB : 0;
+
+        System.out.println("Total gasto com salários: " + totalSalarios);
+        System.out.println("Total de peças fabricadas: " + totalPecas);
+        System.out.println("Código do operário com menor número de peças: " + codigoMinPecas);
+        System.out.println("Média de peças da classe B: " + mediaPecasB);
+    }
+}
+
+4.5
+
+import java.util.Scanner;
+
+public class Exercicio4_5 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.print("Jogador 1: ");
+            String j1 = scanner.next().toLowerCase();
+            System.out.print("Jogador 2: ");
+            String j2 = scanner.next().toLowerCase();
+
+            if (!j1.matches("pedra|papel|tesoura") || !j2.matches("pedra|papel|tesoura")) {
+                System.out.println("Jogo terminado.");
+                break;
+            }
+
+            if (j1.equals(j2)) {
+                System.out.println("Empate!");
+            } else {
+                boolean j1Vence = (j1.equals("pedra") && j2.equals("tesoura")) ||
+                                  (j1.equals("papel") && j2.equals("pedra")) ||
+                                  (j1.equals("tesoura") && j2.equals("papel"));
+                System.out.println(j1Vence ? "Jogador 1 venceu!" : "Jogador 2 venceu!");
+            }
+        }
+    }
+}
+
+4.6
+
+import java.util.Scanner;
+
+public class Exercicio4_6 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        double[] arrecadacoes = new double[3];
+        double[] precos = new double[3];
+        int[] passageiros = new int[3];
+
+        for (int i = 0; i < 3; i++) {
+            int voo;
+            do {
+                System.out.print("Número do voo (1-3): ");
+                voo = scanner.nextInt();
+            } while (voo < 1 || voo > 3);
+
+            int index = voo - 1;
+
+            int passagens;
+            do {
+                System.out.print("Passagens vendidas: ");
+                passagens = scanner.nextInt();
+            } while (passagens < 0 || passagens > 100);
+
+            double precoBase = (voo == 1) ? 100 : (voo == 2) ? 150 : 200;
+            double desconto = (passagens >= 70) ? 0.6 : (passagens >= 50) ? 0.3 : 0;
+            double preco = precoBase * (1 - desconto);
+
+            precos[index] = preco;
+            arrecadacoes[index] = preco * passagens;
+            passageiros[index] = passagens;
+        }
+
+        double maxArrecadacao = arrecadacoes[0];
+        int vooMax = 1;
+        for (int i = 1; i < 3; i++) {
+            if (arrecadacoes[i] > maxArrecadacao) {
+                maxArrecadacao = arrecadacoes[i];
+                vooMax = i + 1;
+            }
+        }
+
+        double media = (arrecadacoes[0] + arrecadacoes[1] + arrecadacoes[2]) / 3;
+
+        double minPreco = precos[0];
+        int vooMin = 1;
+        for (int i = 1; i < 3; i++) {
+            if (precos[i] < minPreco) {
+                minPreco = precos[i];
+                vooMin = i + 1;
+            }
+        }
+
+        System.out.println("Voo com maior arrecadação: " + vooMax + " - Valor: " + maxArrecadacao);
+        System.out.println("Média de arrecadação: " + media);
+        System.out.println("Passagem mais barata: Voo " + vooMin + " - Preço: " + minPreco);
+    }
+}
