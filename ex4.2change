@@ -1,0 +1,57 @@
+import java.util.Scanner;
+
+public class Exercicio4_2 { public static void main(String[] args) 
+    { Scanner scanner = new Scanner(System.in); int votos1 = 0, votos2 = 0, votos3 = 0, nulos = 0, brancos = 0;
+    for (int i = 0; i < 12; i++) {
+        System.out.print("Voto (1-5): ");
+        int voto;
+        //do while para garantir que os votos sejam entre 1 - 5
+        do {
+            voto = scanner.nextInt();
+            if (voto < 1 || voto > 5) {
+                System.out.print("Voto inválido. Digite 1-5: ");
+            }
+        } while (voto < 1 || voto > 5);
+
+        //contagem de votos, 1,2,3 representam os candidatos
+        switch (voto) {
+            case 1: votos1++; break;
+            case 2: votos2++; break;
+            case 3: votos3++; break;
+            case 4: nulos++; break;
+            case 5: brancos++; break;
+        }
+    }
+
+    int maxVotos = Math.max(votos1, Math.max(votos2, votos3));
+
+    // Verifica se houve empate
+    int countEmpate = 0;
+    String candidatosEmpatados = "";
+
+    if (votos1 == maxVotos) {
+        countEmpate++;
+        candidatosEmpatados += "1 ";
+    }
+    if (votos2 == maxVotos) {
+        countEmpate++;
+        candidatosEmpatados += "2 ";
+    }
+    if (votos3 == maxVotos) {
+        countEmpate++;
+        candidatosEmpatados += "3 ";
+    }
+
+    System.out.println("\nResultado da votação:");
+    if (countEmpate > 1) {
+        System.out.println("Houve um empate entre os candidatos: " + candidatosEmpatados);
+    } else {
+        System.out.println("Candidato vencedor: " + candidatosEmpatados.trim());
+    }
+
+    System.out.println("Votos nulos: " + nulos);
+    System.out.println("Votos em branco: " + brancos);
+
+    scanner.close();
+}
+}
