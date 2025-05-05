@@ -1,0 +1,62 @@
+import java.util.Scanner;
+
+public class Exercicio8_2 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String[] nomes = new String[100];
+        double[] salarios = new double[100];
+        int contador = 0;
+        double totalSalarios = 0;
+
+        while (true) {
+            System.out.print("Digite o nome do empregado (ou FIM para encerrar): ");
+            String nome = scanner.nextLine();
+            if (nome.equalsIgnoreCase("FIM") || contador >= 100) break;
+
+            System.out.print("Digite o código do empregado (1-999): ");
+            int codigo = Integer.parseInt(scanner.nextLine());
+            if (codigo < 1 || codigo > 999) {
+                System.out.println("Código inválido.");
+                continue;
+            }
+
+            System.out.print("Digite o número de peças fabricadas (> 0): ");
+            int pecas = Integer.parseInt(scanner.nextLine());
+            if (pecas <= 0) {
+                System.out.println("Número de peças inválido.");
+                continue;
+            }
+
+            double salario = calcularSalario(pecas);
+            nomes[contador] = nome;
+            salarios[contador] = salario;
+            totalSalarios += salario;
+            contador++;
+        }
+
+        System.out.println("\nRelatório de Salários");
+        System.out.printf("%-20s %10s\n", "Nome", "Salário");
+        System.out.println("-------------------- ----------");
+
+        for (int i = 0; i < contador; i++) {
+            System.out.printf("%-20s %10.2f\n", nomes[i], salarios[i]);
+        }
+
+        double media = contador > 0 ? totalSalarios / contador : 0;
+        System.out.printf("\nTotal pago com salários: %.2f\n", totalSalarios);
+        System.out.printf("Média dos salários: %.2f\n", media);
+
+        scanner.close();
+    }
+
+    static double calcularSalario(int pecas) {
+        if (pecas <= 200) {
+            return pecas * 2.0;
+        } else if (pecas <= 400) {
+            return pecas * 2.3;
+        } else {
+            return pecas * 2.5;
+        }
+    }
+}
