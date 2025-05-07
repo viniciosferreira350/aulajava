@@ -5,7 +5,11 @@ public class ControleHotel {
     // Vetor global com as cidades válidas
     static String[] vetCidades = {"BELO HORIZONTE", "SÃO PAULO", "RIO DE JANEIRO", "SALVADOR", "CURITIBA"};
 
-    // Função para verificar se a cidade digitada é válida
+    // ----------------------
+    // FUNÇÕES
+    // ----------------------
+
+    // Verifica se a cidade digitada é válida
     public static boolean cidadeEhValida(String cidade) {
         for (String c : vetCidades) {
             if (c.equalsIgnoreCase(cidade)) {
@@ -15,65 +19,68 @@ public class ControleHotel {
         return false;
     }
 
-    
-    public static double calcularConta(int entrada, int saida, String tipoQuarto) {
-        double diaria = 0;
-
-        if (tipoQuarto.equalsIgnoreCase("STANDARD")) {
-            diaria = 120.0;
-        } else if (tipoQuarto.equalsIgnoreCase("LUXO")) {
-            diaria = 150.0;
-        } else if (tipoQuarto.equalsIgnoreCase("SUPER-LUXO")) {
-            diaria = 180.0;
+    // Retorna o valor da diária baseado no tipo do quarto
+    public static double getValorDiaria(String tipoQuarto) {
+        tipoQuarto = tipoQuarto.toUpperCase();
+        if (tipoQuarto.equals("STANDARD")) {
+            return 120.0;
+        } else if (tipoQuarto.equals("LUXO")) {
+            return 150.0;
+        } else if (tipoQuarto.equals("SUPER-LUXO")) {
+            return 180.0;
+        } else {
+            return 0.0;
         }
+    }
 
+    // Calcula o valor da conta
+    public static double calcularConta(int entrada, int saida, String tipoQuarto) {
+        double diaria = getValorDiaria(tipoQuarto);
         return (saida - entrada) * diaria;
     }
 
+    // ----------------------
+    // PROGRAMA PRINCIPAL
+    // ----------------------
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        
+        // 1. DECLARAÇÃO DE VARIÁVEIS
         String[] nomes = new String[100];
         double[] contas = new double[100];
-
         int totalHospedes = 0;
 
-        while (true) {
-            System.out.println("Deseja inserir nova hospedagem? (S/N): ");
-            String resposta = sc.nextLine();
+        String nome, tipoQuarto, cidade;
+        int diaEntrada, diaSaida;
+        double conta;
+        String continuar;
 
-            if (resposta.equalsIgnoreCase("N")) {
-                break;
-            }
-
+        // 2. ENTRADA DE DADOS COM VALIDAÇÕES
+        do {
             if (totalHospedes >= 100) {
-                System.out.println("Limite de 100 hóspedes atingido.");
+                System.out.println("Limite máximo de hóspedes atingido.");
                 break;
             }
 
-            // Entrada dos dados
-            System.out.print("Nome do Hóspede: ");
-            String nome = sc.nextLine();
+            System.out.print("Nome do hóspede: ");
+            nome = sc.nextLine();
 
-            int entrada;
-            int saida;
-
+            // Validação dos dias
             while (true) {
                 System.out.print("Dia de Entrada: ");
-                entrada = sc.nextInt();
+                diaEntrada = sc.nextInt();
                 System.out.print("Dia de Saída: ");
-                saida = sc.nextInt();
-                sc.nextLine(); // Limpar buffer
+                diaSaida = sc.nextInt();
+                sc.nextLine(); // limpar buffer
 
-                if (saida > entrada) {
+                if (diaSaida > diaEntrada) {
                     break;
                 } else {
-                    System.out.println("Erro: Dia de saída deve ser maior que o dia de entrada.");
+                    System.out.println("Erro: O dia de saída deve ser maior que o dia de entrada.");
                 }
             }
 
-            String tipoQuarto;
+            // Validação do tipo de quarto
             while (true) {
                 System.out.print("Tipo de Quarto (STANDARD, LUXO, SUPER-LUXO): ");
                 tipoQuarto = sc.nextLine().toUpperCase();
@@ -85,7 +92,7 @@ public class ControleHotel {
                 }
             }
 
-            String cidade;
+            // Validação da cidade
             while (true) {
                 System.out.print("Cidade do Hotel: ");
                 cidade = sc.nextLine().toUpperCase();
@@ -93,29 +100,35 @@ public class ControleHotel {
                 if (cidadeEhValida(cidade)) {
                     break;
                 } else {
-                    System.out.println("Erro: Cidade não cadastrada.");
+                    System.out.println("Erro: Cidade inválida.");
                 }
             }
 
-            // Calcular a conta e armazenar
-            double conta = calcularConta(entrada, saida, tipoQuarto);
+            // 3. CÁLCULO NECESSÁRIO
+            conta = calcularConta(diaEntrada, diaSaida, tipoQuarto);
+
             nomes[totalHospedes] = nome;
             contas[totalHospedes] = conta;
             totalHospedes++;
-        }
 
-        // Calcular média
-        double soma = 0;
+            System.out.print("Deseja cadastrar outro hóspede? (S/N): ");
+            continuar = sc.nextLine();
+
+        } while (continuar.equalsIgnoreCase("S"));
+
+        // 4. SAÍDA - RELATÓRIO
+        double somaContas = 0;
         for (int i = 0; i < totalHospedes; i++) {
-            soma += contas[i];
+            somaContas += contas[i];
         }
-        double media = (totalHospedes > 0) ? soma / totalHospedes : 0;
 
-        // Exibir relatório
+        double mediaContas = (totalHospedes > 0) ? somaContas / totalHospedes : 0;
+
         System.out.println("\nRelatório de contas acima da média");
         System.out.printf("%-30s %-10s\n", "Nome do hóspede", "Vlr Conta");
+
         for (int i = 0; i < totalHospedes; i++) {
-            if (contas[i] > media) {
+            if (contas[i] > mediaContas) {
                 System.out.printf("%-30s R$ %.2f\n", nomes[i], contas[i]);
             }
         }
