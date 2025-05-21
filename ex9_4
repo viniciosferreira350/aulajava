@@ -1,0 +1,22 @@
+- O DETRAN deseja fazer o controle das multas de veículos. Faça um programa em Java que receba via teclado a PLACA DO VEÍCULO, a DATA DA MULTA (DD/MM/AAAA) e o VALOR DA MULTA.
+O programa deverá consistir a entrada de dados da seguinte forma:
+- A placa deverá ser uma String de 7 caracteres e ser formada por três letras e quatro dígitos. Ex: GVP5566
+- O valor da multa deverá ser maior que zero.
+- Fazer um método de nome dataEhValida para consistir a data da multa:
+- o método deverá receber como parâmetro uma data no formato DD/MM/AAAA - a consistência deverá seguir as seguintes regras:
+- a String deverá ter 10 caracteres de tamanho.
+- o 3o. E o 6o. Caracteres deverão ser uma barra ('/').
+- para os meses de Janeiro, Março, Maio, Julho, Agosto, Outubro e Dezembro o dia
+deverá ser entre 1 e 31.
+- para os meses Abril, Junho, Setembro e Novembro o dia deverá ser entre 1 e 30.
+- para o mês de Fevereiro:
+- anos divisíveis por 4 e não divisível por 100 ou anos divisíveis por 400 o dia deverá ser entre 1 e 29 ((ano bissexto);
+- para os demais anos o dia deverá ser entre 1 e 28;
+- os mês deverá ser entre 1 e 12
+- o ano deverá ser menor ou igual ao ano atual.
+- o método deverá retornar um valor do tipo Boolean. Caso a data recebida como parâmetro esteja de acordo com as regras acima a função retornará o valor TRUE, caso contrário, retornará o valor FALSE.
+Como resultado final o programa deverá imprimir: - A soma dos valores das multas.
+- O valor médio das multas.
+- O valor da menor multa.
+Obs:
+- Definir um Flag para encerrar o programa.
